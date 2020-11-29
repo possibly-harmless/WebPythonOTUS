@@ -16,28 +16,42 @@ class SearchLogger:
     _instance = None
 
     @classmethod
-    def get_logger(cls, *args, **kwargs):
+    def get_logger(cls):
         if not cls._instance:
-            cls._instance = cls(*args, **kwargs)
+            raise RuntimeError(
+                "Logger should be initialized before the first use. Use SearchLogger.init_logger() to do so."
+            )
         return cls._instance
 
-    def __init__(self, path=DEFAULT_LOG_PATH, log_to_console=True, level="info"):
-        log_level = {
+    @classmethod
+    def init_logger(cls, *args, **kwargs):
+        if not cls._instance:
+            cls._instance = cls(*args, **kwargs)
+
+    @classmethod
+    def log_level_mappings(cls):
+        return {
             "info": logging.INFO,
             "error":logging.ERROR,
             "warning": logging.WARNING,
-            "debug": logging.DEBUG
-        }.get(level, logging.INFO)
+            "debug": logging.DEBUG,
+            "critical": logging.CRITICAL
+        }
 
+    @classmethod
+    def get_actual_log_level(cls, level):
+        return cls.log_level_mappings().get(level, logging.INFO)
+
+    def __init__(self, path=DEFAULT_LOG_PATH, log_to_console=True, level="info"):
+        log_level = self.__class__.get_actual_log_level(level)
         handlers = []
         if path:
             handlers.append(logging.FileHandler(path, mode='w'))
         if log_to_console or not path:
             handlers.append(logging.StreamHandler())
-
         logging.root.handlers = []
         logging.basicConfig(
-            level=logging.INFO,
+            level=log_level,
             format="%(asctime)s [%(levelname)s] %(message)s",
             handlers=handlers
         )
@@ -54,4 +68,5 @@ class SearchLogger:
     def debug(self, msg):
         return logging.debug(msg)
 
-
+    def critical(self, msg):
+        return logging.critical(msg)
