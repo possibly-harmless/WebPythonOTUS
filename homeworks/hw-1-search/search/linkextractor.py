@@ -213,7 +213,7 @@ class AbstractLinkExtractor(ABC):
                     if link_is_valid_for_recursion(link)
                 ]
 
-                # Рекурсивный вызов: перенаправляем генератор дочерних ссылок.
+                # Рекурсивный вызов: перенаправляем генератор результатов от дочерних ссылок.
                 yield from gen(link["url"], sublinks, lev + 1, search_page)
 
                 # Небольшая случайная задержка между запросами - предосторожность на всякий случай
@@ -244,6 +244,7 @@ class AbstractLinkExtractor(ABC):
                 else:
                     empty_attempts = 0
                 if empty_attempts >= cls.max_empty_attempts:
+                    # Пустой список результатов несколько раз подряд. Похоже на защиту поисковика. Выходим.
                     cls.logger().warning(
                         f"Request to search engine returned an empty set of links for {empty_attempts} "+
                         "consecutive times. \nProbably hit captcha defence. You can try a different engine. "+
@@ -258,7 +259,7 @@ class AbstractLinkExtractor(ABC):
 
         def enumerated_gen(gen):
             """
-            Доьбавляем индекс (порядковый номер) результата в объектам передаваемого генератора
+            Добавляем индекс (порядковый номер) результата в объектам передаваемого генератора
             :param gen:
             :return:
             """
