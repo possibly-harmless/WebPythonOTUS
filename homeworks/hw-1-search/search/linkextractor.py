@@ -16,6 +16,7 @@ class AbstractLinkExtractor(ABC):
     """
     delay_in_seconds_between_search_requests = 3
     delay_in_seconds_between_normal_requests = 0.5
+    max_empty_attempts = 3
 
     @classmethod
     @abstractmethod
@@ -140,8 +141,20 @@ class AbstractLinkExtractor(ABC):
                 )
 
         def full_gen(link_batch_generator):
+            empty_attempts = 0
             for index, links_batch in enumerate(link_batch_generator):
                 links = list(links_batch)
+                if not links:
+                    empty_attempts += 1
+                else:
+                    empty_attempts = 0
+                if empty_attempts >= cls.max_empty_attempts:
+                    cls.logger().warning(
+                        f"Request to search engine returned an empty set of links for {empty_attempts} "+
+                        "consecutive times. \nProbably hit captcha defence. You can try a different engine. "+
+                        "Exiting..."
+                    )
+                    return
                 for link in gen(None, links, 0, index):
                     yield {**link, "search_page": index + 1}
                     if len(visited) == limit:
