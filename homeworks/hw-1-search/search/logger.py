@@ -56,8 +56,11 @@ class SearchLogger:
             handlers=handlers
         )
 
-    def info(self, msg):
-        return logging.info(msg)
+    def info(self, msg, force_console_print=False):
+        if logging.root.isEnabledFor(self.log_level_mappings()["info"]):
+            logging.info(msg)
+        elif force_console_print:
+            print(msg)
 
     def error(self, msg):
         return logging.error(msg)
