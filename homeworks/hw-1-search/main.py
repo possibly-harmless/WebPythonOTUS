@@ -24,12 +24,12 @@ SUPPORTED_LOG_LEVELS = SearchLogger.log_level_mappings().keys()
     "--engine",
     default=DEFAULT_SEARCH_ENGINE,
     type=click.Choice(REGISTERED_ENGINES),
-    help=f"Search engine type"
+    help=f"Search engine type. Defaults to '{DEFAULT_SEARCH_ENGINE}'"
 )
 @click.option(
     "--limit",
     default=DEFAULT_MAX_RESULTS,
-    help="Max number of results to return"
+    help=f"Max number of results to return. Default is {DEFAULT_MAX_RESULTS}"
 )
 @click.option(
     "--recursive/--non-recursive",
@@ -40,13 +40,13 @@ SUPPORTED_LOG_LEVELS = SearchLogger.log_level_mappings().keys()
     "--console/--no-console",
     default=DEFAULT_CONSOLE_FLAG,
     # is_flag=True,
-    help="Whether or not to print results to console. Defaults to --console"
+    help="Whether to print results to console (default) or not"
 )
 @click.option(
     "--mode",
     default=DEFAULT_SEARCH_MODE,
     type=click.Choice(SUPPORTED_SEARCH_MODES),
-    help="""Keep only links with all or any of the words in the query. Defaults to 'all' """
+    help="""Keep only links with all (default) or any of the words in the query"""
 )
 @click.option(
     "--depth_limit",
@@ -62,7 +62,7 @@ SUPPORTED_LOG_LEVELS = SearchLogger.log_level_mappings().keys()
     "--verbose/--brief",
     default=DEFAULT_VERBOSE_FLAG,
     is_flag=True,
-    help="""Whether or not to keep extended search information in results."""
+    help="""Whether or not (default) to keep extended search information in results."""
 )
 @click.option(
     "--logpath",
