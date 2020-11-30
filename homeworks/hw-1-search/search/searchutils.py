@@ -162,7 +162,7 @@ def with_delay(delay_func):
                 end = time.time()
                 time_left = next_delay - (end - start)
                 if time_left > 0:
-                    SearchLogger.get_logger().info(f"\nGoing to sleep for {time_left} seconds...\n")
+                    SearchLogger.get_logger().info(f"Going to sleep for {time_left} seconds...")
                     time.sleep(time_left)
         return generator_wrapper
     return inner
