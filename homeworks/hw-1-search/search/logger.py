@@ -11,6 +11,30 @@ if not os.path.exists(DEFAULT_LOG_DIR):
 if  DEFAULT_LOG_DIR:
     DEFAULT_LOG_PATH = os.path.join(DEFAULT_LOG_DIR, "search.log")
 
+
+def with_logging_methods(methods):
+    """
+    Class decorator to add logging methods like info(), warning(), ... to logger class
+    :param methods: A list of string method names
+    :return: Class decorator
+    """
+    def logger_decorator(clazz):
+        def create_log_method(name):
+            def inner(self, msg, force_console_print=False):
+                if logging.root.isEnabledFor(self.log_level_mappings()[name]):
+                    getattr(logging, name)(msg)
+                elif force_console_print:
+                    print(msg)
+            return inner
+
+        for level in methods:
+            setattr(clazz, level, create_log_method(level))
+
+        return clazz
+    return logger_decorator
+
+
+@with_logging_methods(("info", "error", "warning", "debug", "critical"))
 class SearchLogger:
 
     _instance = None
@@ -55,21 +79,3 @@ class SearchLogger:
             format="%(asctime)s [%(levelname)s] %(message)s",
             handlers=handlers
         )
-
-    def info(self, msg, force_console_print=False):
-        if logging.root.isEnabledFor(self.log_level_mappings()["info"]):
-            logging.info(msg)
-        elif force_console_print:
-            print(msg)
-
-    def error(self, msg):
-        return logging.error(msg)
-
-    def warning(self, msg):
-        return logging.warning(msg)
-
-    def debug(self, msg):
-        return logging.debug(msg)
-
-    def critical(self, msg):
-        return logging.critical(msg)
