@@ -85,6 +85,8 @@ def search(query, engine, limit, recursive,  console, mode, depth_limit, resultp
     if not recursive:
         depth_limit = 1
 
+    logger.info("Starting the search...", force_console_print=True)
+
     results = list(extractor.recursive_link_generator(
         query,
         limit=limit,
@@ -92,7 +94,7 @@ def search(query, engine, limit, recursive,  console, mode, depth_limit, resultp
         depth_limit=depth_limit
     ))
 
-    logger.info("Finished search...")
+    logger.info("Finished search...", force_console_print=True)
 
     if console:
         ResultsHandler.console_print(results, verbose=verbose)
