@@ -64,7 +64,7 @@ class ResultsHandler:
     @classmethod
     def openwrite(cls, path):
         try:
-            f = open(path, mode='w')
+            f = open(path, mode='w', encoding='utf8')
         except OSError:
             SearchLogger.get_logger().error(
                 f"Error opening file {path} for writing. Search results could not be saved"
@@ -83,7 +83,7 @@ class ResultsHandler:
             writer.writerow(headers)
             for row in cls._get_tabular_data(search_data, headers)['data']:
                 writer.writerow(row)
-        SearchLogger.get_logger().info(f"Search results written to {path}")
+        SearchLogger.get_logger().info(f"Search results written to {path}", force_console_print=True)
         return True
 
     @classmethod
@@ -97,8 +97,8 @@ class ResultsHandler:
             for row in search_data
         ]
         with f:
-            json.dump(filtered_data, f, indent=4)
-        SearchLogger.get_logger().info(f"Search results written to {path}")
+            json.dump(filtered_data, f, indent=4, ensure_ascii=False)
+        SearchLogger.get_logger().info(f"Search results written to {path}", force_console_print=True)
         return True
 
     @classmethod
