@@ -12,6 +12,7 @@ DEFAULT_SEARCH_ENGINE = "google"
 DEFAULT_SEARCH_MODE = "all"
 DEFAULT_VERBOSE_FLAG = False
 DEFAULT_LOG_LEVEL = 'info'
+DEFAULT_RECURSIVE_MODE = True
 
 REGISTERED_ENGINES = SEDriverRegistry.registered_drivers_names()
 SUPPORTED_SEARCH_MODES = ('any', 'all')
@@ -29,6 +30,11 @@ SUPPORTED_LOG_LEVELS = SearchLogger.log_level_mappings().keys()
     "--limit",
     default=DEFAULT_MAX_RESULTS,
     help="Max number of results to return"
+)
+@click.option(
+    "--recursive/--non-recursive",
+    default=DEFAULT_RECURSIVE_MODE,
+    help="Whether the search is recursive (default) or not"
 )
 @click.option(
     "--console/--no-console",
@@ -69,12 +75,15 @@ SUPPORTED_LOG_LEVELS = SearchLogger.log_level_mappings().keys()
     type=click.Choice(SUPPORTED_LOG_LEVELS),
     help="Sets the log level. Defaults to 'info'"
 )
-def search(query, engine, limit, console, mode, depth_limit, resultpath, verbose, logpath, loglevel):
+def search(query, engine, limit, recursive,  console, mode, depth_limit, resultpath, verbose, logpath, loglevel):
 
     SearchLogger.init_logger(path=logpath, log_to_console=True, level=loglevel)
     logger = SearchLogger.get_logger()
 
     extractor = SEDriverRegistry.get_driver(engine)
+
+    if not recursive:
+        depth_limit = 1
 
     results = list(extractor.recursive_link_generator(
         query,
