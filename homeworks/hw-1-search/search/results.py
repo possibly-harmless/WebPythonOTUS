@@ -32,22 +32,28 @@ class ResultsHandler:
 
     @classmethod
     def _console_print(cls, search_data, headers):
-        max_url_length = max([len(row['url']) for row in search_data])
         print("\n\n*************                THE RESULTS                     *************\n\n")
-        if max_url_length <= MAX_LINK_LENGTH_FOR_TABLE:
-            print(tabulate(
-                cls._get_tabular_data(search_data, headers)["data"],
-                headers=[HEADERS_TRANSLATION[h] for h in headers]
-            ))
+
+        if not search_data:
+            print("\n                             NO RESULTS FOUND                    \n")
         else:
-            for row in search_data:
-                print(f"{row['index']}. {row['url']}")
-                print(f"\t{row['text']}")
-                if 'parent_url' in headers and "rec.depth" in headers:
-                    rec_depth = row['rec.depth']
-                    print(f"\tRecursion depth: {rec_depth}")
-                    if rec_depth:
-                        print(f"\tParent URL: {row['parent_url']}")
+            max_url_length = max([len(row['url']) for row in search_data])
+            if max_url_length <= MAX_LINK_LENGTH_FOR_TABLE:
+                print(tabulate(
+                    cls._get_tabular_data(search_data, headers)["data"],
+                    headers=[HEADERS_TRANSLATION[h] for h in headers]
+                ))
+            else:
+                for row in search_data:
+                    print(f"{row['index']}. {row['url']}")
+                    print(f"\t{row['text']}")
+                    if 'parent_url' in headers and "rec.depth" in headers:
+                        rec_depth = row['rec.depth']
+                        print(f"\tRecursion depth: {rec_depth}")
+                        if rec_depth:
+                            print(f"\tParent URL: {row['parent_url']}")
+
+        print("\n******************************************************************************\n")
 
 
     @classmethod
