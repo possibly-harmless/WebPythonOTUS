@@ -62,7 +62,7 @@ CSS селекторы, которые специфичны для каждог�
 
     cd testdir
     git clone https://github.com/possibly-harmless/WebPythonOTUS.git
-    cd homeworks/hw-1-search
+    cd WebPythonOTUS/homeworks/hw-1-search
     python -m venv venv
     deactivate
     cd venv/bin
