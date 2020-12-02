@@ -1,6 +1,6 @@
 # Домашнее задание №1 по курсу OTUS WebPython 2020
 
-## Задача:
+## 1.Задача:
 
 Создать программу поисковик (консольную).
 
@@ -16,7 +16,7 @@
 В зависимости от выбранного формата вывода сохраняем результат (текст ссылки: ссылка) либо в 
 консоль либо в файл выбранного формата
 
-## Обзор реализованного функционала
+## 2. Обзор реализованного функционала
 
 Особенности реализации
 
@@ -54,8 +54,101 @@ CSS селекторы, которые специфичны для каждог�
     - Путь к лог-файлу
     - Уровень логирования
     
-## Установка / сборка
+## 3.Установка / сборка
 
+### 3.1 Установка и проверка на уровне source code
 
+Выкачиваем репозиторий, устанавливаем venv, зависимости
 
-## Примеры использования    
+    cd testdir
+    git clone https://github.com/possibly-harmless/WebPythonOTUS.git
+    cd homeworks/hw-1-search
+    python -m venv venv
+    deactivate
+    cd venv/bin
+    source activate
+    cd ../..
+    pip install -r requirements.txt
+    
+Простейшая проверка
+
+    python -m search "Python generators" --limit=30
+    
+### 3.2 Все доступные опции и help    
+    
+После выполнения следующей строчки 
+
+    python -m search --help
+    
+Должно вернуться что-то вроде этого:
+
+    Usage: __main__.py [OPTIONS] QUERY
+    
+    Options:
+      --engine [yahoo|yandex|google]  Search engine type. Defaults to 'google'
+      --limit INTEGER                 Max number of results to return. Default is
+                                      30
+    
+      --recursive / --non-recursive   Whether the search is recursive (default) or
+                                      not
+    
+      --console / --no-console        Whether to print results to console
+                                      (default) or not
+    
+      --mode [any|all]                Keep only links with all (default) or any of
+                                      the words in the query
+    
+      --depth_limit INTEGER           Recursion depth limit. Defaults to 5
+      --resultpath TEXT               A path to .csv or .json file to save the
+                                      results to. Defaults to None
+    
+      --verbose / --brief             Whether or not (default) to keep extended
+                                      search information in results.
+    
+      --logpath TEXT                  Path to log file. Defaults to /Users/archie/
+                                      Projects/CoursesAndBooks/Python/Otus/Web2020
+                                      /Homeworks/WebPythonOTUS/homeworks/hw-1-sear
+                                      ch/search/logs/search.log
+    
+      --loglevel [info|error|warning|debug|critical]
+                                      Sets the log level. Defaults to 'info'
+      --help                          Show this message and exit.
+
+    
+### 3.3 Сборка пакета
+
+Предполагая что шаги описанные в пункте 3.1 выполнены, и venv активирован, нужно из корня
+проекта (`.../homeworks/hw-1-search/`) выполнить
+
+    python setup.py sdist bdist_wheel 
+        
+Собранный дистрибутив можно забрать из папки `"/dist"` (в форматах `".tar.gz"` или `".whl"`).
+Для проверки нужно пененести их в пустую папку (напр. `"/testsearch"`), затем
+
+    cd testsearch
+    python -m venv venv
+    deactivate
+    cd venv/bin
+    source activate 
+    cd ../..
+ 
+Тестируем:   
+    
+    pip install lshifr-otus-websearch-1.0.0*.tar.gz
+    python -m search "Python generators" --limit=30
+    
+Аналогочно с файлом  `lshifr_otus_websearch-1.0.0-py3-none-any.whl`
+    
+
+## Примеры использования  
+
+    python -m search 'python generator' --engine=yahoo --mode=any --limit=40 
+    
+    python -m search 'python generator' --limit=40 --verbose
+    
+    python -m search 'python programming' --limit=40 --mode=any  --no-console --resultpath="search_results.csv"
+    
+    python -m search 'Программирование на python' --limit=30 --verbose --non-recursive
+
+    python -m search 'python generator' --resultpath=search_results.json --mode=all --limit=40 \
+    --depth_limit=7 --engine=yahoo --brief --non-recursive  
