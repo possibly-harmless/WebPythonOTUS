@@ -32,4 +32,5 @@ class YahooLinkExtractor(AbstractLinkExtractor):
             start += 1
             yield url
 
+
 SEDriverRegistry.register("yahoo", YahooLinkExtractor)

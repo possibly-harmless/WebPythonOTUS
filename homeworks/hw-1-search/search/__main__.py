@@ -18,6 +18,7 @@ REGISTERED_ENGINES = SEDriverRegistry.registered_drivers_names()
 SUPPORTED_SEARCH_MODES = ('any', 'all')
 SUPPORTED_LOG_LEVELS = SearchLogger.log_level_mappings().keys()
 
+
 @click.command()
 @click.argument("query")
 @click.option(
@@ -75,7 +76,7 @@ SUPPORTED_LOG_LEVELS = SearchLogger.log_level_mappings().keys()
     type=click.Choice(SUPPORTED_LOG_LEVELS),
     help="Sets the log level. Defaults to 'info'"
 )
-def search(query, engine, limit, recursive,  console, mode, depth_limit, resultpath, verbose, logpath, loglevel):
+def search(query, engine, limit, recursive, console, mode, depth_limit, resultpath, verbose, logpath, loglevel):
 
     SearchLogger.init_logger(path=logpath, log_to_console=True, level=loglevel)
     logger = SearchLogger.get_logger()
@@ -87,15 +88,15 @@ def search(query, engine, limit, recursive,  console, mode, depth_limit, resultp
 
     start_info = "\n".join(
         [s for s in (
-            f"Starting the search with parameters:\n",
+            "Starting the search with parameters:\n",
             f"Original query:                   {query}",
             f"Search engine used:               {engine}",
             f"Total results needed:             {limit}",
             f"Search mode:                      {mode} query words",
             f"Recursive search:                 {recursive}",
-            f"Max recursion depth:              {depth_limit}" if recursive else f"",
+            f"Max recursion depth:              {depth_limit}" if recursive else "",
             f"Print results to console:         {console}",
-            f"Save results to:                  {resultpath}" if resultpath else f"",
+            f"Save results to:                  {resultpath}" if resultpath else "",
             f"Save log at:                      {logpath}",
             f"Log level:                        {loglevel}",
         ) if s]

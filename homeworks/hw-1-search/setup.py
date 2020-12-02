@@ -11,7 +11,7 @@ README = (HERE / "README.md").read_text()
 setup(
     name="lshifr-otus-websearch",
     version="1.0.0",
-    description="Simple web search console interface based on one of several popular search engines. "+
+    description="Simple web search console interface based on one of several popular search engines. "
                 "Homework #1 for OTUS WebPython 2020 course",
     long_description=README,
     long_description_content_type="text/markdown",

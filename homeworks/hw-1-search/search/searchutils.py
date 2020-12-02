@@ -13,7 +13,8 @@ def read_web_page(url):
     :return: string or None
     """
     headers = {
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"
+        "User-Agent":
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"
     }
     try:
         response = requests.get(url, headers=headers)
@@ -50,9 +51,7 @@ def link_is_valid(link_info, query_words, mode="all"):
 
     result = combiner(
         [
-            word in link_info["url"]
-            or link_info["text"]
-            and word in link_info["text"].lower()
+            word in link_info["url"] or link_info["text"] and word in link_info["text"].lower()
             for word in query_words
         ]
     )
@@ -80,13 +79,13 @@ def to_canonical_url(url):
     """
     parsed_url = urlparse(url)
     return urlunparse([
-        parsed_url.scheme, 
-        parsed_url.netloc, 
+        parsed_url.scheme,
+        parsed_url.netloc,
         parsed_url.path,
         '',
         '',
         ''
-])
+    ])
 
 
 def page_links(page_contents):
@@ -114,8 +113,8 @@ def valid_page_links(page_contents, query_words, mode="all"):
     valid as search results.
     """
     return [
-        linfo 
-        for linfo in page_links(page_contents) 
+        linfo
+        for linfo in page_links(page_contents)
         if type(linfo["url"]) == str and link_is_valid(linfo, query_words, mode=mode)
     ]
 
@@ -130,7 +129,7 @@ def fix_child_link(parent_url, link):
     if link["url"].startswith("/") and parent_url:
         print("Parent_url: ", parent_url)
         if parent_url.endswith("/"):
-            return {**link, "url" : f"{parent_url[:-1]}{link['url']}"}
+            return {**link, "url": f"{parent_url[:-1]}{link['url']}"}
         else:
             return {**link, "url": f"{parent_url}{link['url']}"}
     else:

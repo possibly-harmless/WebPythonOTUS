@@ -2,6 +2,7 @@ import re
 import urllib
 from search.linkextractor import AbstractLinkExtractor, SEDriverRegistry
 
+
 def memoize(func):
     memcache = {}
 
@@ -12,9 +13,11 @@ def memoize(func):
 
     return inner
 
+
 @memoize
 def get_yandex_adlink_pattern():
     return re.compile("^http://yabs.yandex.ru/.*")
+
 
 class YandexLinkExtractor(AbstractLinkExtractor):
 

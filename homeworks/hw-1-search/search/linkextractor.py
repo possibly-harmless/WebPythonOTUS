@@ -1,5 +1,8 @@
 from abc import ABC, abstractmethod
-from .searchutils import *
+from bs4 import BeautifulSoup
+import time
+from .searchutils import read_web_page, randomize_delay, with_delay, fix_child_link, to_canonical_url, \
+    link_is_valid_for_recursion, valid_page_links
 from .stopwords import QueryStopWords
 from .logger import SearchLogger
 
@@ -143,7 +146,7 @@ class AbstractLinkExtractor(ABC):
 
         visited = set()         # Уже посещенные ссылки будут храниться тут
 
-        query_words = QueryStopWords.remove_stop_words( # Расщепляем ссылку на слова, удаляем stop words
+        query_words = QueryStopWords.remove_stop_words(  # Расщепляем ссылку на слова, удаляем stop words
             [s for s in query.lower().split(" ") if s]
         )
 
@@ -170,8 +173,8 @@ class AbstractLinkExtractor(ABC):
             """
             newlinks = []  # Здесь будут храниться новые ссылки - т.е. те, по которым еще не проходили
             for link in links:
-                link = fix_child_link(parent_url, link) # Восстанавливаем абсолютную ссылку
-                canonical_url = to_canonical_url(link["url"]) # Приводим url к "каноническому" виду для хранения
+                link = fix_child_link(parent_url, link)  # Восстанавливаем абсолютную ссылку
+                canonical_url = to_canonical_url(link["url"])  # Приводим url к "каноническому" виду для хранения
                 if canonical_url in visited:
                     # Уже были по этой ссылке - пропускаем
                     continue
@@ -240,14 +243,14 @@ class AbstractLinkExtractor(ABC):
                 # Получаем список ссылок от поисковика. index (+1) - это номер страницы результатов поиска
                 links = list(links_batch)
                 if not links:
-                    empty_attempts += 1 # Пустой список ссылок может означать что мы наткнулись на защиту поисковика
+                    empty_attempts += 1  # Пустой список ссылок может означать что мы наткнулись на защиту поисковика
                 else:
                     empty_attempts = 0
                 if empty_attempts >= cls.max_empty_attempts:
                     # Пустой список результатов несколько раз подряд. Похоже на защиту поисковика. Выходим.
                     cls.logger().warning(
-                        f"Request to search engine returned an empty set of links for {empty_attempts} "+
-                        "consecutive times. \nProbably hit captcha defence. You can try a different engine. "+
+                        f"Request to search engine returned an empty set of links for {empty_attempts} "
+                        "consecutive times. \nProbably hit captcha defence. You can try a different engine. "
                         "Exiting..."
                     )
                     return
@@ -288,6 +291,3 @@ class SEDriverRegistry:
     @classmethod
     def registered_drivers_names(cls):
         return cls._registry.keys()
-
-
-

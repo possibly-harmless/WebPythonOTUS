@@ -8,7 +8,7 @@ if not os.path.exists(DEFAULT_LOG_DIR):
         os.mkdir(DEFAULT_LOG_DIR)
     except OSError:
         DEFAULT_LOG_DIR = None
-if  DEFAULT_LOG_DIR:
+if DEFAULT_LOG_DIR:
     DEFAULT_LOG_PATH = os.path.join(DEFAULT_LOG_DIR, "search.log")
 
 
@@ -56,7 +56,7 @@ class SearchLogger:
     def log_level_mappings(cls):
         return {
             "info": logging.INFO,
-            "error":logging.ERROR,
+            "error": logging.ERROR,
             "warning": logging.WARNING,
             "debug": logging.DEBUG,
             "critical": logging.CRITICAL

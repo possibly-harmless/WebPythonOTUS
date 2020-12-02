@@ -14,14 +14,15 @@ HEADERS_TRANSLATION = {
 
 MAX_LINK_LENGTH_FOR_TABLE = 80
 
+
 class ResultsHandler:
 
     @classmethod
     def get_headers(cls, verbose=False):
         if verbose:
-            return ("index", "url", "text", "rec.depth", "parent_url")
+            return "index", "url", "text", "rec.depth", "parent_url"
         else:
-            return ("index", "url", "text")
+            return "index", "url", "text"
 
     @classmethod
     def _get_tabular_data(cls, search_data, headers):
@@ -55,9 +56,8 @@ class ResultsHandler:
 
         print("\n******************************************************************************\n")
 
-
     @classmethod
-    def console_print(cls, search_data,  verbose=False):
+    def console_print(cls, search_data, verbose=False):
         headers = cls.get_headers(verbose=verbose)
         cls._console_print(search_data, headers)
 
@@ -106,11 +106,10 @@ class ResultsHandler:
         if not path:
             return None
         methods = {
-            ".csv" : cls.save_to_csv,
+            ".csv": cls.save_to_csv,
             ".json": cls.save_to_json
         }
         for ext, method in methods.items():
             if path.endswith(ext):
                 return method(search_data, path, verbose=verbose)
         return None
-
