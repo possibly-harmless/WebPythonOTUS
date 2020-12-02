@@ -1,8 +1,8 @@
 import search.drivers  # Need this to load / register drivers
 import click
-from search.linkextractor import SEDriverRegistry
-from search.results import ResultsHandler
-from search.logger import SearchLogger, DEFAULT_LOG_PATH
+from .linkextractor import SEDriverRegistry
+from .results import ResultsHandler
+from .logger import SearchLogger, DEFAULT_LOG_PATH
 
 
 DEFAULT_MAX_RESULTS = 30
