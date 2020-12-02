@@ -85,7 +85,26 @@ def search(query, engine, limit, recursive,  console, mode, depth_limit, resultp
     if not recursive:
         depth_limit = 1
 
-    logger.info("Starting the search...", force_console_print=True)
+    start_info = "\n".join(
+        [s for s in (
+            f"Starting the search with parameters:\n",
+            f"Original query:                   {query}",
+            f"Search engine used:               {engine}",
+            f"Total results needed:             {limit}",
+            f"Search mode:                      {mode} query words",
+            f"Recursive search:                 {recursive}",
+            f"Max recursion depth:              {depth_limit}" if recursive else f"",
+            f"Print results to console:         {console}",
+            f"Save results to:                  {resultpath}" if resultpath else f"",
+            f"Save log at:                      {logpath}",
+            f"Log level:                        {loglevel}",
+        ) if s]
+    )
+
+    logger.info(
+        f"\n\n{start_info}\n",
+        force_console_print=True
+    )
 
     results = list(extractor.recursive_link_generator(
         query,
@@ -105,4 +124,3 @@ def search(query, engine, limit, recursive,  console, mode, depth_limit, resultp
 
 if __name__ == "__main__":
     search()
-
