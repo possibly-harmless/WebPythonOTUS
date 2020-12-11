@@ -88,7 +88,7 @@ class Lotto(RectangularBuildingBlock):
         if action_type is "MARK_POSITION":
             card, position = itemgetter("card", "position")(action)
             if not self.dealer.check_card(card):
-                self.messages.add_message(f"Игрок {user.name} пытался сжульничать и будет удален из игры!")
+                self.messages.add_message(f"Игрок {user.name} пытался сжульничать и был удален из игры!")
                 self.humans = [u for u in self.humans if u is not user]
         self.repaint()
 
