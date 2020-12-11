@@ -1,5 +1,6 @@
 from lotto import Lotto
-from lotto.settings import DEFAULT_PLAYERS, MAX_PLAYERS, DEFAULT_CARD_SIZE, MAX_CARD_SIZE, MAX_NUMBER, DEFAULT_MAX_NUMBER
+from lotto.settings import DEFAULT_PLAYERS, MAX_PLAYERS, DEFAULT_CARD_SIZE, MAX_CARD_SIZE, MAX_NUMBER, \
+    DEFAULT_MAX_NUMBER
 import click
 
 

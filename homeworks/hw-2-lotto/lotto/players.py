@@ -5,7 +5,7 @@ import random
 
 
 class Dealer(object):
-    def __init__(self, card_size: int, max_number:int = DEFAULT_MAX_NUMBER):
+    def __init__(self, card_size: int, max_number: int = DEFAULT_MAX_NUMBER):
         self.card_size = card_size
         self.max_number = max_number
         self._refresh()
@@ -58,7 +58,6 @@ class User(RectangularBuildingBlock):
                 Text(["  Player", "  ", "  "+self.name.upper()], hor_align=HorizontalAlignment.LEFT),
                 15,
                 hor_align=HorizontalAlignment.LEFT
-            )
-            ,
+            ),
             self.card
         )

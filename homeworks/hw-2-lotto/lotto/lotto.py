@@ -1,7 +1,7 @@
 from console import RectangularBuildingBlock, Column, VerticalSeparator, Row, HorizontalSeparator, \
     HorizontalPadding, HorizontalAlignment, Text, PaddableColumn
 from .players import User, Dealer
-from .settings import DEFAULT_CARD_SIZE, DEFAULT_PLAYERS, USER_NAMES, MAX_PLAYERS, DEFAULT_MAX_NUMBER
+from .settings import DEFAULT_CARD_SIZE, DEFAULT_PLAYERS, USER_NAMES, DEFAULT_MAX_NUMBER
 from .utils import is_int_str, cls
 from operator import itemgetter
 import random
@@ -29,8 +29,7 @@ class Messages(RectangularBuildingBlock):
                         hor_align=HorizontalAlignment.LEFT
                     ),
                     30
-                )
-                ,
+                ),
                 HorizontalSeparator("=")
             ),
             VerticalSeparator("="),
@@ -132,7 +131,7 @@ class Lotto(RectangularBuildingBlock):
 
     def remind_last_number(self):
         msg = ("Ни одного бочонка еще не объявляли" if self.last_played is None
-               else (f"Последний объявленный бочонок был: {self.last_played}"))
+               else f"Последний объявленный бочонок был: {self.last_played}")
         self.messages.add_message(msg)
         self.repaint()
 
@@ -144,12 +143,15 @@ class Lotto(RectangularBuildingBlock):
     def start_game(self):
         self.repaint()
         while not self.done:
-            player_choices = "\t\t"+"\n\t\t".join([f"{abbr} - {player.name}" for abbr, player in self.abbreviations.items()])
+            player_choices = "\t\t"+"\n\t\t".join(
+                [f"{abbr} - {player.name}" for abbr, player in self.abbreviations.items()]
+            )
             val = input(
                 "Сделайте выбор:"
                 "\n\tn - Объявить следующий бочонок"
                 "\n\tp - Напомнить последний объявленный бочонок"
-                f"\n\t<имя игрока> <позиция>, где <имя игрока> (аббревиатура на английском: A, B, etc.) :\n {player_choices}," 
+                "\n\t<имя игрока> <позиция>, где <имя игрока> (аббревиатура на английском: A, B, etc.)" 
+                f":\n {player_choices}," 
                 "\n\ta позиция - позиция бочонка на карте, целое число: 1, 2, 3, 4, etc, напр.: А 2"
                 "\n\tq - Завершить игру"
                 "\n>>>"
@@ -170,4 +172,3 @@ class Lotto(RectangularBuildingBlock):
             else:
                 self.messages.add_message("Введена неверная опция. Попробуйте еще раз")
                 self.repaint()
-
