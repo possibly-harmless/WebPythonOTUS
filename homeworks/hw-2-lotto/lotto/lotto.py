@@ -65,8 +65,8 @@ class Lotto(RectangularBuildingBlock):
             for index, player in enumerate(self.humans)
         }
         self.messages = Messages()  # Контейнер для игровых сообщений
-        self.done = False
-        self.last_played = None  # Последний объявленный боченок (число)
+        self.done = False  # Флаг окончания игры
+        self.last_played = None  # Последний объявленный бочонок (число)
         all_users = self.nonhumans + self.humans
         for user in all_users:
             user.get_card(self.dealer)  # Раздать билеты игрокам
@@ -162,8 +162,11 @@ class Lotto(RectangularBuildingBlock):
         Вывод в консоль / напоминание последнего объявленного бочонка
         :return:
         """
-        msg = ("Ни одного бочонка еще не объявляли" if self.last_played is None
-               else f"Последний объявленный бочонок был: {self.last_played}")
+        msg = (
+            "Ни одного бочонка еще не объявляли"
+            if self.last_played is None
+            else f"Последний объявленный бочонок был: {self.last_played}"
+        )
         self.messages.add_message(msg)
         self.repaint()
 
