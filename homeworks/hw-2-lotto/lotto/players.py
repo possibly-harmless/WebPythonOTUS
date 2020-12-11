@@ -55,8 +55,9 @@ class User(RectangularBuildingBlock):
     def get_current_figure(self, height=None, width=None):
         return PaddableRow(
             HorizontalPadding(
-                Text(["Player", "", self.name.upper()], hor_align=HorizontalAlignment.LEFT),
-                10
+                Text(["  Player", "  ", "  "+self.name.upper()], hor_align=HorizontalAlignment.LEFT),
+                15,
+                hor_align=HorizontalAlignment.LEFT
             )
             ,
             self.card
