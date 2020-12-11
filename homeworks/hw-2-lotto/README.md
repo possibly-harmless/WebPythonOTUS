@@ -126,4 +126,13 @@
       --help              Show this message and exit.     
 
 
+### 3.3 Примеры использования
+
+Играет 2 человека и 3 компьютерных игрока:
+
+    python  lotto.py  --name="Андрей" --name="Анна" --players=5 --cardsize=7
+
+Играют несколько человек, все игроки - люди:
+
+    python  lotto.py --name="Leo" --name="Kate" --name="Андрей" --name="Оля" --name="Сергей" --players=5
 
