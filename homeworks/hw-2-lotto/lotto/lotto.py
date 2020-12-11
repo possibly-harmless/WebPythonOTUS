@@ -91,6 +91,12 @@ class Lotto(RectangularBuildingBlock):
             if not self.dealer.check_card(card):
                 self.messages.add_message(f"Игрок {user.name} пытался сжульничать и был удален из игры!")
                 self.humans = [u for u in self.humans if u is not user]
+                if not self.humans and not self.nonhumans:
+                    self.messages.add_message("")
+                    self.messages.add_message("Все игроки были удалены за жульничество!")
+                    self.messages.add_message("")
+                    self.messages.add_message("Игра окончена. Победителей нет.")
+                    self.done = True
         self.repaint()
 
     def detect_winners(self):
