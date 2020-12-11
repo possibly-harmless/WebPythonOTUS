@@ -14,4 +14,7 @@ USER_NAMES = (
 DEFAULT_CARD_SIZE = 5
 DEFAULT_PLAYERS = 4
 
+# These limits should better not be changed
 MAX_PLAYERS = len(USER_NAMES)
+MAX_CARD_SIZE = 10
+MAX_NUMBER = 90

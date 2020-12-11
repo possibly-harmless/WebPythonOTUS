@@ -1,7 +1,7 @@
 from console import RectangularBuildingBlock, Column, VerticalSeparator, Row, HorizontalSeparator, \
     HorizontalPadding, HorizontalAlignment, Text, PaddableColumn
 from .players import User, Dealer
-from .settings import DEFAULT_CARD_SIZE, DEFAULT_PLAYERS, USER_NAMES, MAX_PLAYERS
+from .settings import DEFAULT_CARD_SIZE, DEFAULT_PLAYERS, USER_NAMES, MAX_PLAYERS, DEFAULT_MAX_NUMBER
 from .utils import is_int_str, cls
 from operator import itemgetter
 import random
@@ -42,13 +42,14 @@ class Lotto(RectangularBuildingBlock):
     def __init__(
             self,
             card_size=DEFAULT_CARD_SIZE,
+            max_number=DEFAULT_MAX_NUMBER,
             players=DEFAULT_PLAYERS,
             player_names=(),
             *args,
             **kwargs
     ):
         super().__init__(*args, **kwargs)
-        self.dealer = Dealer(card_size)
+        self.dealer = Dealer(card_size, max_number)
         self.nonhumans = [User(n, self) for n in random.sample(USER_NAMES, players - len(player_names))]
         self.humans = [User(name, self) for name in player_names]
         self.abbreviations = {chr(ord('A')+index): player for index, player in enumerate(self.humans)}
@@ -101,11 +102,15 @@ class Lotto(RectangularBuildingBlock):
                 return  # Игрок еще может закрыть последнюю позицию и стать одним из победителей
         self.done = True
         if len(winners) == 1:
-            self.messages.add_message(f"Победителем становится {winners[0].name}")
+            self.messages.add_message("Победителем становится")
+            self.messages.add_message("")
+            self.messages.add_message(winners[0].name.upper())
         else:
             self.messages.add_message("Победителями стали:")
+            self.messages.add_message("")
             for w in winners:
-                self.messages.add_message(w.name)
+                self.messages.add_message(w.name.upper())
+        self.messages.add_message("")
         self.messages.add_message("Игра окончена!")
         self.repaint()
 
