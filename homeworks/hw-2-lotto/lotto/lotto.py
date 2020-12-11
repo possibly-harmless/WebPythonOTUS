@@ -86,7 +86,7 @@ class Lotto(RectangularBuildingBlock):
 
     def handle_user_action(self, action):
         action_type, user = itemgetter("action", "user")(action)
-        if action_type is "MARK_POSITION":
+        if action_type == "MARK_POSITION":
             card, position = itemgetter("card", "position")(action)
             if not self.dealer.check_card(card):
                 self.messages.add_message(f"Игрок {user.name} пытался сжульничать и был удален из игры!")
