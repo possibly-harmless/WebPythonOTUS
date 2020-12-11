@@ -23,7 +23,7 @@ import click
 @click.option(
     "--maxnum",
     default=DEFAULT_MAX_NUMBER,
-    help=f"Максимальное число на боченке. Не должно превышать{MAX_NUMBER}"
+    help=f"Максимальное число на боченке. Не должно превышать {MAX_NUMBER}"
 )
 def lotto_game(name, players, cardsize, maxnum):
     if len(set(name)) < len(name):
