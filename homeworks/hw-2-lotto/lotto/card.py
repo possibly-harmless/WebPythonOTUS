@@ -53,14 +53,6 @@ class Card(RectangularBuildingBlock):
         assert 0 < position <= len(self.numbers)
         self.used.add(self.numbers[position - 1])
 
-    def unmark_position(self, position: int):
-        """
-        Отменяет закрытие позиции в билете. Обычно применяется в ответ на
-        жульничание игрока
-        """
-        assert 0 < position <= len(self.numbers)
-        self.used.remove(self.numbers[position - 1])
-
     def mark_used_number_if_present(self, num: int):
         """
         Закрывает число в билете при условии что оно в нем содержится
