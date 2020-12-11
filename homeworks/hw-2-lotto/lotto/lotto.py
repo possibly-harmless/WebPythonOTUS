@@ -119,12 +119,6 @@ class Lotto(RectangularBuildingBlock):
         self.messages.add_message("Игра окончена!")
         self.repaint()
 
-    def get_human_player_by_name(self, name):
-        for p in self.humans:
-            if p.name == name:
-                return p
-        return None
-
     def mark_position(self, player, position):
         player.mark_used_position(position)
         self.detect_winners()
