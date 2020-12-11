@@ -119,10 +119,6 @@ class Lotto(RectangularBuildingBlock):
         self.messages.add_message("Игра окончена!")
         self.repaint()
 
-    def mark_position(self, player, position):
-        player.mark_used_position(position)
-        self.detect_winners()
-
     def remind_last_number(self):
         msg = ("Ни одного бочонка еще не объявляли" if self.last_played is None
                else f"Последний объявленный бочонок был: {self.last_played}")
@@ -156,7 +152,9 @@ class Lotto(RectangularBuildingBlock):
                 abb = val[0]
                 pstr = val[1:].strip()
                 if is_int_str(pstr):
-                    self.mark_position(self.abbreviations[abb], int(pstr))
+                    player = self.abbreviations[abb]
+                    player.mark_used_position(int(pstr))
+                    self.detect_winners()
                 else:
                     self.messages.add_message("Позиция на карте должна быть целым числом")
             elif val == 'p':
