@@ -217,6 +217,7 @@ class Lotto(RectangularBuildingBlock):
                     self.detect_winners()
                 else:
                     self.messages.add_message("Позиция на карте должна быть целым числом")
+                    self.repaint()
             elif val == 'p':
                 self.remind_last_number()
             elif val == 'q':
