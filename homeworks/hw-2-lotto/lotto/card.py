@@ -26,7 +26,7 @@ class UsedCardNumber(CardNumber):
         compiled = super().compile(height=height, width=width)
         return list(map(
             lambda row: list(map(
-                lambda elem: elem if elem != ' ' else "-",
+                lambda elem: elem if elem != ' ' else "/",
                 row
             )),
             compiled
