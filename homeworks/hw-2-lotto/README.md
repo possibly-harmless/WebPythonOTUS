@@ -135,9 +135,13 @@
 
 Играет 2 человека и 3 компьютерных игрока:
 
-    python  lotto.py  --name="Андрей" --name="Анна" --players=5 --cardsize=7
+    python lotto.py  --name="Андрей" --name="Анна" --players=5 --cardsize=7
 
 Играют несколько человек, все игроки - люди:
 
-    python  lotto.py --name="Leo" --name="Kate" --name="Андрей" --name="Оля" --name="Сергей" --players=5
+    python lotto.py --name="Leo" --name="Kate" --name="Андрей" --name="Оля" --name="Сергей" --players=5
+    
+Играют 3 компьютерных игрока, без людей:
+
+    python lotto.py --players=3
 
