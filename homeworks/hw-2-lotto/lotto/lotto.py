@@ -176,6 +176,28 @@ class Lotto(RectangularBuildingBlock):
         self.repaint()
         self.done = True
 
+    def get_prompt(self):
+        if self.humans:
+            player_choices = "\t\t" + "\n\t\t\t".join(
+                [f"{abbr} - {player.name}" for abbr, player in self.abbreviations.items()]
+            )
+            player_prompt = "\n\t" + "\n\t".join([
+                "<имя игрока> <позиция>, ",
+                "\tгде <имя игрока> (аббревиатура на английском: A, B, etc.): ",
+                f"{player_choices},",
+                "\ta <позиция> - позиция бочонка на карте, целое число: 1, 2, 3, 4, etc., напр.: А 2",
+            ])
+        else:
+            player_prompt = ""
+        return "".join([
+            "Сделайте выбор:",
+            "\n\tn - Объявить следующий бочонок",
+            "\n\tp - Напомнить последний объявленный бочонок",
+            f"{player_prompt}",
+            "\n\tq - Завершить игру",
+            "\n>>>",
+        ])
+
     def start_game(self):
         """
         Main loop для игры
@@ -183,19 +205,7 @@ class Lotto(RectangularBuildingBlock):
         """
         self.repaint()
         while not self.done:
-            player_choices = "\t\t"+"\n\t\t".join(
-                [f"{abbr} - {player.name}" for abbr, player in self.abbreviations.items()]
-            )
-            val = input(
-                "Сделайте выбор:"
-                "\n\tn - Объявить следующий бочонок"
-                "\n\tp - Напомнить последний объявленный бочонок"
-                "\n\t<имя игрока> <позиция>, где <имя игрока> (аббревиатура на английском: A, B, etc.)" 
-                f":\n {player_choices}," 
-                "\n\ta позиция - позиция бочонка на карте, целое число: 1, 2, 3, 4, etc, напр.: А 2"
-                "\n\tq - Завершить игру"
-                "\n>>>"
-            )
+            val = input(self.get_prompt())
             if val == 'n':
                 self.request_new_number()
             elif any([val.startswith(abb) for abb in self.abbreviations.keys()]):
