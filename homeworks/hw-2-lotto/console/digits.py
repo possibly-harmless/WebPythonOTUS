@@ -78,7 +78,7 @@ DIGITS = [
 
 class Digit(RectangularFigure):
     """
-    Класс для отображения цифры
+    Класс для отображения одной цифры.
     """
     @staticmethod
     def digit_to_chars(matrix):

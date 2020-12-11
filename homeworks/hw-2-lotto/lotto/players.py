@@ -6,7 +6,7 @@ import random
 
 class Dealer(object):
     """
-    Сущность ведущего игры
+    Сущность ведущего игры.
     """
     def __init__(self, card_size: int, max_number: int = DEFAULT_MAX_NUMBER):
         self.card_size = card_size
@@ -16,14 +16,14 @@ class Dealer(object):
 
     def deal_card(self):
         """
-        Выдать новую карту
+        Выдать новую карту.
         :return:
         """
         return Card(self, random.sample(range(1, self.max_number), self.card_size))
 
     def next_number(self):
         """
-        Достать / объявить новый бочонок, или None, если они закончились
+        Достать / объявить новый бочонок, или None, если они закончились.
         :return:
         """
         if not self.available:
@@ -36,7 +36,7 @@ class Dealer(object):
     def check_card(self, card: Card):
         """
         Проверить что на карте нет закрытых позиций для бочонков, которые
-        еще не были объявлены
+        еще не были объявлены.
         :param card:
         :return:
         """
@@ -45,7 +45,7 @@ class Dealer(object):
 
 class User(RectangularBuildingBlock):
     """
-    Класс реализующий функционал игрока (человека или компьютера)
+    Класс реализующий функционал игрока (человека или компьютера).
     """
     def __init__(self, name, game, **kwargs):
         super().__init__(**kwargs)
@@ -61,7 +61,7 @@ class User(RectangularBuildingBlock):
 
     def mark_used_position(self, position):
         """
-        Закрыть позицию (правильно или сжульничать)
+        Закрыть позицию (правильно или сжульничать).
         :param position:
         :return:
         """
@@ -75,7 +75,7 @@ class User(RectangularBuildingBlock):
 
     def get_current_figure(self, height=None, width=None):
         """
-        Отображение информации об игроке - имя и текущее состояние карты / билета
+        Отображение информации об игроке - имя и текущее состояние карты / билета.
         :param height:
         :param width:
         :return:

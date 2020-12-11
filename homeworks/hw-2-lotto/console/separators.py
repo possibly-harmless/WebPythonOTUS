@@ -5,7 +5,7 @@ from functools import lru_cache
 
 class HorizontalSeparator(RectangularFigure):
     """
-    Примитив вертикальной линии - разделителя (то есть, разделитель по горизонтали)
+    Примитив вертикальной линии - разделителя (то есть, разделитель по горизонтали).
     """
     def __init__(self, separator, **kwargs):
         super().__init__(**kwargs)
@@ -24,7 +24,7 @@ class HorizontalSeparator(RectangularFigure):
 
 class VerticalSeparator(RectangularFigure):
     """
-    Примитив горизонтальной линии - разделителя (то есть, разделитель по вертикали)
+    Примитив горизонтальной линии - разделителя (то есть, разделитель по вертикали).
     """
     def __init__(self, separator, **kwargs):
         super().__init__(**kwargs)
@@ -43,7 +43,7 @@ class VerticalSeparator(RectangularFigure):
 
 class VerticalPadding(RectangularBuildingBlock):
     """
-    Контейнер реализующий padding по вертикали до заданной общей высоты
+    Контейнер, реализующий padding по вертикали до заданной общей высоты.
     """
     def __init__(self, inner, total_height=None, **kwargs):
         super().__init__(**kwargs)
@@ -62,7 +62,6 @@ class VerticalPadding(RectangularBuildingBlock):
         else:
             full_height = self.total_height
         pad_height = full_height - self.inner.get_height()
-        # print(full_height, ' ; ', pad_height)
         if pad_height <= 0:
             return self.inner
         else:
@@ -73,7 +72,6 @@ class VerticalPadding(RectangularBuildingBlock):
             else:
                 top = pad_height
             bottom = pad_height - top
-            # print(top, ' ', bottom)
             return Column(
                 *([VerticalSeparator(self.padding)] * top),
                 self.inner,
@@ -83,7 +81,7 @@ class VerticalPadding(RectangularBuildingBlock):
 
 class HorizontalPadding(RectangularBuildingBlock):
     """
-    Контейнер реализующий padding по горизонтали до заданной общей ширины
+    Контейнер, реализующий padding по горизонтали до заданной общей ширины.
     """
     def __init__(self, inner, total_width=None, **kwargs):
         super().__init__(**kwargs)
@@ -102,7 +100,6 @@ class HorizontalPadding(RectangularBuildingBlock):
         else:
             full_width = self.total_width
         pad_width = full_width - self.inner.get_width()
-        # print('pad_width: ', pad_width, ' ', self.inner.__class__)
         if pad_width <= 0:
             return self.inner
         else:
@@ -123,7 +120,7 @@ class HorizontalPadding(RectangularBuildingBlock):
 class PaddableRow(Row):
     """
     Вариант Row с неопределенной высотой, определяющейся высотой максимально высокого
-    дочернего элемента
+    дочернего элемента.
     """
     def get_height(self):
         heights = list({c.get_height() for c in self.children} - {None})
@@ -140,7 +137,7 @@ class PaddableRow(Row):
 class PaddableColumn(Column):
     """
     Вариант Column с неопределенной шириной, определяющейся шириной максимально широкого
-    дочернего элемента
+    дочернего элемента.
     """
     def get_width(self):
         widths = list({c.get_width() for c in self.children} - {None})
@@ -156,7 +153,7 @@ class PaddableColumn(Column):
 
 class TextLine(RectangularFigure):
     """
-    Примитив одной строки текста
+    Примитив одной строки текста.
     """
     def __init__(self, text: str, **kwargs):
         super().__init__(**kwargs)
@@ -174,7 +171,7 @@ class TextLine(RectangularFigure):
 
 class Text(RectangularBuildingBlock):
     """
-    Примитив многострочного текста
+    Примитив многострочного текста.
     """
     def __init__(self, textlines, **kwargs):
         super().__init__(**kwargs)

@@ -9,7 +9,7 @@ import random
 
 class Messages(RectangularBuildingBlock):
     """
-    Класс реализующий отображение сообщений для игроков
+    Класс, реализующий отображение сообщений для игроков.
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -42,7 +42,7 @@ class Messages(RectangularBuildingBlock):
 
 class Lotto(RectangularBuildingBlock):
     """
-    Основной класс, реализующий логику игры
+    Основной класс, реализующий логику и отображение игры.
     """
     def __init__(
             self,
@@ -73,7 +73,7 @@ class Lotto(RectangularBuildingBlock):
 
     def get_current_figure(self, height=None, width=None):
         """
-        Отображение состояния игры складывается из всех игроков + сообщений
+        Отображение состояния игры складывается из всех игроков + сообщений.
         :param height:
         :param width:
         :return:
@@ -85,7 +85,7 @@ class Lotto(RectangularBuildingBlock):
 
     def repaint(self):
         """
-        Перерисовка
+        Перерисовка.
         :return:
         """
         cls()
@@ -94,7 +94,7 @@ class Lotto(RectangularBuildingBlock):
 
     def request_new_number(self):
         """
-        Запрос на объявление нового бочонка
+        Запрос на объявление нового бочонка.
         :return:
         """
         num = self.dealer.next_number()
@@ -111,7 +111,7 @@ class Lotto(RectangularBuildingBlock):
 
     def handle_user_action(self, action):
         """
-        Обработка действий игрока
+        Обработка действий игрока.
         :param action:
         :return:
         """
@@ -134,7 +134,7 @@ class Lotto(RectangularBuildingBlock):
 
     def detect_winners(self):
         """
-        Проверка на выявление победителей
+        Проверка на выявление победителей.
         :return:
         """
         winners = [user for user in self.nonhumans + self.humans if user.card.is_complete()]
@@ -159,7 +159,7 @@ class Lotto(RectangularBuildingBlock):
 
     def remind_last_number(self):
         """
-        Вывод в консоль / напоминание последнего объявленного бочонка
+        Вывод в консоль / напоминание последнего объявленного бочонка.
         :return:
         """
         msg = (
@@ -172,7 +172,7 @@ class Lotto(RectangularBuildingBlock):
 
     def quit(self):
         """
-        Досрочное прекращение игры
+        Досрочное прекращение игры.
         :return:
         """
         self.messages.add_message("Игра остановлена по запросу пользователя")
@@ -180,6 +180,10 @@ class Lotto(RectangularBuildingBlock):
         self.done = True
 
     def get_prompt(self):
+        """
+        Формирует сообщение запроса ввода данных к игрокам, для новой игровой итерации.
+        :return:
+        """
         if self.humans:
             player_choices = "\t\t" + "\n\t\t\t".join(
                 [f"{abbr} - {player.name}" for abbr, player in self.abbreviations.items()]

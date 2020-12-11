@@ -5,7 +5,7 @@ from .settings import MAX_NUMBER
 
 class CardNumber(RectangularBuildingBlock):
     """
-    Класс для одной, незакрытой, позиции на карте / билете
+    Класс для одной, незакрытой, позиции на карте / билете.
     """
     def __init__(self, number, **kwargs):
         super().__init__(**kwargs)
@@ -23,7 +23,7 @@ class CardNumber(RectangularBuildingBlock):
 
 class UsedCardNumber(CardNumber):
     """
-    Класс для одной, закрытой, позиции на карте / билете
+    Класс для одной, закрытой, позиции на карте / билете.
     """
     def __init__(self, number, **kwargs):
         super().__init__(number, **kwargs)
@@ -41,7 +41,7 @@ class UsedCardNumber(CardNumber):
 
 class Card(RectangularBuildingBlock):
     """
-    Класс реализующий логику и отображение в консоли для одного билета
+    Класс, реализующий логику и отображение в консоли для одного билета.
     """
     def __init__(self, dealer, card_numbers, **kwargs):
         super().__init__(**kwargs)
@@ -54,33 +54,33 @@ class Card(RectangularBuildingBlock):
     def mark_used_position(self, position: int):
         """
         Закрывает данное поле / число в билете. Если позиция не соответствует
-        последнему сыгранному числу, то это жульничание
+        последнему сыгранному числу, то это жульничание.
         """
         assert 0 < position <= len(self.numbers)
         self.used.add(self.numbers[position - 1])
 
     def mark_used_number_if_present(self, num: int):
         """
-        Закрывает число в билете при условии что оно в нем содержится
+        Закрывает число в билете при условии что оно в нем содержится.
         """
         if num in self.numbers:
             self.used.add(num)
 
     def get_unmarked(self):
         """
-        :return: множество (set) всех еще не закрытых чисел в билете
+        :return: множество (set) всех еще не закрытых чисел в билете.
         """
         return set(self.numbers) - self.used
 
     def is_complete(self):
         """
-        :return: True если билет полностью закрыт / сыгран, False в противном случае
+        :return: True если билет полностью закрыт / сыгран, False в противном случае.
         """
         return not bool(self.get_unmarked())
 
     def get_current_figure(self, height=None, width=None):
         """
-        Отображение билета в консоли
+        Отображение билета в консоли.
         """
         def get_components():
             yield HorizontalSeparator("|")
