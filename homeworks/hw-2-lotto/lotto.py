@@ -24,7 +24,7 @@ def lotto_game(name, players):
             f"Превышено максимальное число игроков {MAX_PLAYERS}. Игра будет проходить с числом игроков {MAX_PLAYERS}"
         )
         players = MAX_PLAYERS
-    Lotto(player_names=name, players=players).start_game()
+    Lotto(player_names=name, players=max(players, len(name))).start_game()
 
 
 if __name__ == "__main__":
