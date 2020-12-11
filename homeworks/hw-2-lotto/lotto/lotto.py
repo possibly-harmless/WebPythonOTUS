@@ -121,6 +121,9 @@ class Lotto(RectangularBuildingBlock):
             if not self.dealer.check_card(card):
                 self.messages.add_message(f"Игрок {user.name} пытался сжульничать и был удален из игры!")
                 self.humans = [u for u in self.humans if u is not user]
+                self.abbreviations = {
+                    key: val for key, val in self.abbreviations.items() if val is not user
+                }
                 if not self.humans and not self.nonhumans:
                     self.messages.add_message("")
                     self.messages.add_message("Все игроки были удалены за жульничество!")
