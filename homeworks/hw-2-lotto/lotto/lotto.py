@@ -8,6 +8,9 @@ import random
 
 
 class Messages(RectangularBuildingBlock):
+    """
+    Класс реализующий отображение сообщений для игроков
+    """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.messages = []
@@ -38,6 +41,9 @@ class Messages(RectangularBuildingBlock):
 
 
 class Lotto(RectangularBuildingBlock):
+    """
+    Основной класс, реализующий логику игры
+    """
     def __init__(
             self,
             card_size=DEFAULT_CARD_SIZE,
@@ -48,29 +54,49 @@ class Lotto(RectangularBuildingBlock):
             **kwargs
     ):
         super().__init__(*args, **kwargs)
-        self.dealer = Dealer(card_size, max_number)
-        self.nonhumans = [User(n, self) for n in random.sample(USER_NAMES, players - len(player_names))]
-        self.humans = [User(name, self) for name in player_names]
-        self.abbreviations = {chr(ord('A')+index): player for index, player in enumerate(self.humans)}
-        self.messages = Messages()
+        self.dealer = Dealer(card_size, max_number)  # Ведущий игры (сущность, не игрок)
+        self.nonhumans = [  # Компьютерные игроки
+            User(n, self)
+            for n in random.sample(USER_NAMES, players - len(player_names))
+        ]
+        self.humans = [User(name, self) for name in player_names]  # Игроки - люди
+        self.abbreviations = {  # Краткие однобуквенные аббревиатуры для игроков - людей
+            chr(ord('A')+index): player
+            for index, player in enumerate(self.humans)
+        }
+        self.messages = Messages()  # Контейнер для игровых сообщений
         self.done = False
-        self.last_played = None
+        self.last_played = None  # Последний объявленный боченок (число)
         all_users = self.nonhumans + self.humans
         for user in all_users:
-            user.get_card(self.dealer)
+            user.get_card(self.dealer)  # Раздать билеты игрокам
 
     def get_current_figure(self, height=None, width=None):
+        """
+        Отображение состояния игры складывается из всех игроков + сообщений
+        :param height:
+        :param width:
+        :return:
+        """
         components = [*self.nonhumans, *self.humans]
         if self.messages.messages:
             components.append(self.messages)
         return PaddableColumn(*components, hor_align=HorizontalAlignment.LEFT)
 
     def repaint(self):
+        """
+        Перерисовка
+        :return:
+        """
         cls()
         self.draw()
         self.messages.clear_messages()
 
     def request_new_number(self):
+        """
+        Запрос на объявление нового бочонка
+        :return:
+        """
         num = self.dealer.next_number()
         if num is None:
             self.messages.add_message("Бочонков больше нет. Игра окончена!")
@@ -84,6 +110,11 @@ class Lotto(RectangularBuildingBlock):
         self.detect_winners()
 
     def handle_user_action(self, action):
+        """
+        Обработка действий игрока
+        :param action:
+        :return:
+        """
         action_type, user = itemgetter("action", "user")(action)
         if action_type == "MARK_POSITION":
             card, position = itemgetter("card", "position")(action)
@@ -99,6 +130,10 @@ class Lotto(RectangularBuildingBlock):
         self.repaint()
 
     def detect_winners(self):
+        """
+        Проверка на выявление победителей
+        :return:
+        """
         winners = [user for user in self.nonhumans + self.humans if user.card.is_complete()]
         if not winners:
             return
@@ -120,17 +155,29 @@ class Lotto(RectangularBuildingBlock):
         self.repaint()
 
     def remind_last_number(self):
+        """
+        Вывод в консоль / напоминание последнего объявленного бочонка
+        :return:
+        """
         msg = ("Ни одного бочонка еще не объявляли" if self.last_played is None
                else f"Последний объявленный бочонок был: {self.last_played}")
         self.messages.add_message(msg)
         self.repaint()
 
     def quit(self):
+        """
+        Досрочное прекращение игры
+        :return:
+        """
         self.messages.add_message("Игра остановлена по запросу пользователя")
         self.repaint()
         self.done = True
 
     def start_game(self):
+        """
+        Main loop для игры
+        :return:
+        """
         self.repaint()
         while not self.done:
             player_choices = "\t\t"+"\n\t\t".join(

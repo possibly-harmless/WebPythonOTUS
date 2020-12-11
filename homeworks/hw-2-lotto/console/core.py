@@ -17,6 +17,9 @@ class HorizontalAlignment(Enum):
 
 
 class RectangularFigure(ABC):
+    """
+    Базовый абстрактный класс для отображения прямоугольного блока в консоли
+    """
     def __init__(
             self,
             horizontally_paddable=True,
@@ -35,22 +38,50 @@ class RectangularFigure(ABC):
 
     @abstractmethod
     def get_width(self):
+        """
+        Ширина блока в символах
+        :return:
+        """
         pass
 
     @abstractmethod
     def get_height(self):
+        """
+        Высота блока в строках
+        :return:
+        """
         pass
 
     @abstractmethod
     def compile(self, height=None, width=None):
+        """
+        Метод для компиляции элемента в строки вывода консоли
+        :param height:
+        :param width:
+        :return: Прямоугольный список списков символов. Внутренние списки символов -
+        отдельный строки консольного вывода. Внешний список - вся совокупность этих
+        строк
+        """
         pass
 
     def draw(self):
+        """
+        Вывод элементов в консоль.
+        :return:
+        """
         for row in self.compile():
             print(*row)
 
 
 class RectangularBuildingBlock(RectangularFigure):
+    """
+    Этот класс нужен для того, чтобы реализовывать динамически меняющиеся
+    (изменяемые) фигуры. Если например мы имеем класс с изменяемым состоянием,
+    то он должен реализовать метод get_current_figure(), который динамически
+    генерирует прямоугольную фигуру - которая будет пересоздаваться каждый раз
+    при вызове этого метода. Все остальные методы - делегирование к методам
+    этой динамической фигуры.
+    """
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -70,6 +101,10 @@ class RectangularBuildingBlock(RectangularFigure):
 
 
 class Container(RectangularFigure, ABC):
+    """
+    Класс который добавляет поля дочерних и родительских элементов.
+    Дочерние элементы передаются прямо в конструктор
+    """
     def __init__(self,  *children, **kwargs):
         super().__init__(**kwargs)
         for child in children:
@@ -81,7 +116,9 @@ class Container(RectangularFigure, ABC):
 
 
 class Row(Container):
-
+    """
+    Этот класс реализует примитив "строки" - то есть горизонтального контейнера
+    """
     def get_height(self):
         heights = list({c.get_height() for c in self.children} - {None})
         assert len(heights) <= 1
@@ -109,7 +146,9 @@ class Row(Container):
 
 
 class Column(Container):
-
+    """
+    Этот класс реализует примитив "столбца" - то есть вертикального контейнера
+    """
     def get_width(self):
         widths = list({c.get_width() for c in self.children} - {None})
         assert len(widths) <= 1

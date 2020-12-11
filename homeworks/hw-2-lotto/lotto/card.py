@@ -1,12 +1,15 @@
 from console import Row, Digit, HorizontalSeparator, RectangularBuildingBlock, \
     Column, VerticalSeparator
+from .settings import MAX_NUMBER
 
 
 class CardNumber(RectangularBuildingBlock):
-
+    """
+    Класс для одной, незакрытой, позиции на карте / билете
+    """
     def __init__(self, number, **kwargs):
         super().__init__(**kwargs)
-        assert type(number) is int and 0 < number < 100
+        assert type(number) is int and 0 < number <= MAX_NUMBER
         self.high = int(number / 10)
         self.low = number % 10
 
@@ -19,6 +22,9 @@ class CardNumber(RectangularBuildingBlock):
 
 
 class UsedCardNumber(CardNumber):
+    """
+    Класс для одной, закрытой, позиции на карте / билете
+    """
     def __init__(self, number, **kwargs):
         super().__init__(number, **kwargs)
 

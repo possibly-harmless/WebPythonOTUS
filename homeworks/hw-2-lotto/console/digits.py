@@ -1,5 +1,6 @@
 from .core import RectangularFigure
 
+# Матрицы отображения цифр
 
 DIGITS = [
     [
@@ -76,7 +77,9 @@ DIGITS = [
 
 
 class Digit(RectangularFigure):
-
+    """
+    Класс для отображения цифры
+    """
     @staticmethod
     def digit_to_chars(matrix):
         return [['#' if dig else ' ' for dig in row] for row in matrix]

@@ -4,6 +4,9 @@ from functools import lru_cache
 
 
 class HorizontalSeparator(RectangularFigure):
+    """
+    Примитив вертикальной линии - разделителя (то есть, разделитель по горизонтали)
+    """
     def __init__(self, separator, **kwargs):
         super().__init__(**kwargs)
         self.separator = separator
@@ -20,6 +23,9 @@ class HorizontalSeparator(RectangularFigure):
 
 
 class VerticalSeparator(RectangularFigure):
+    """
+    Примитив горизонтальной линии - разделителя (то есть, разделитель по вертикали)
+    """
     def __init__(self, separator, **kwargs):
         super().__init__(**kwargs)
         self.separator = separator
@@ -36,6 +42,9 @@ class VerticalSeparator(RectangularFigure):
 
 
 class VerticalPadding(RectangularBuildingBlock):
+    """
+    Контейнер реализующий padding по вертикали до заданной общей высоты
+    """
     def __init__(self, inner, total_height=None, **kwargs):
         super().__init__(**kwargs)
         assert isinstance(inner, RectangularFigure)
@@ -73,6 +82,9 @@ class VerticalPadding(RectangularBuildingBlock):
 
 
 class HorizontalPadding(RectangularBuildingBlock):
+    """
+    Контейнер реализующий padding по горизонтали до заданной общей ширины
+    """
     def __init__(self, inner, total_width=None, **kwargs):
         super().__init__(**kwargs)
         assert isinstance(inner, RectangularFigure)
@@ -109,6 +121,10 @@ class HorizontalPadding(RectangularBuildingBlock):
 
 
 class PaddableRow(Row):
+    """
+    Вариант Row с неопределенной высотой, определяющейся высотой максимально высокого
+    дочернего элемента
+    """
     def get_height(self):
         heights = list({c.get_height() for c in self.children} - {None})
         assert heights
@@ -122,6 +138,10 @@ class PaddableRow(Row):
 
 
 class PaddableColumn(Column):
+    """
+    Вариант Column с неопределенной шириной, определяющейся шириной максимально широкого
+    дочернего элемента
+    """
     def get_width(self):
         widths = list({c.get_width() for c in self.children} - {None})
         assert widths
@@ -135,6 +155,9 @@ class PaddableColumn(Column):
 
 
 class TextLine(RectangularFigure):
+    """
+    Примитив одной строки текста
+    """
     def __init__(self, text: str, **kwargs):
         super().__init__(**kwargs)
         self.text = text
@@ -150,6 +173,9 @@ class TextLine(RectangularFigure):
 
 
 class Text(RectangularBuildingBlock):
+    """
+    Примитив многострочного текста
+    """
     def __init__(self, textlines, **kwargs):
         super().__init__(**kwargs)
         self.lines = textlines
