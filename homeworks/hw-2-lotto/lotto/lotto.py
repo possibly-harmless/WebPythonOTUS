@@ -190,7 +190,7 @@ class Lotto(RectangularBuildingBlock):
         else:
             player_prompt = ""
         return "".join([
-            "Сделайте выбор:",
+            "Выберите опцию:",
             "\n\tn - Объявить следующий бочонок",
             "\n\tp - Напомнить последний объявленный бочонок",
             f"{player_prompt}",
